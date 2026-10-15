@@ -1,0 +1,84 @@
+<div class="border-t border-[#e5eaf1] px-5 py-4">
+  <!-- View All Comments -->
+  <button
+    type="button"
+    class="mb-4 text-sm font-semibold text-[#687d9b] transition hover:text-[#1877f2]"
+  >
+    View all {{ postComments().length }} comments
+  </button>
+
+  <!-- Comment 1 -->
+  @for (comment of postComments(); track comment._id) {
+    <div class="mb-5 flex items-start gap-2.5">
+      <img
+        [src]="comment.commentCreator.photo"
+        [alt]="comment.commentCreator.name"
+        class="h-9 w-9 shrink-0 rounded-full object-cover"
+      />
+
+      <div class="min-w-0 flex-1">
+        <!-- Comment Bubble -->
+        <div class="inline-block max-w-full rounded-2xl bg-[#f0f2f5] px-4 py-2.5">
+          <h4 class="mb-1 text-sm font-bold text-[#172033]">{{ comment.commentCreator.name }}</h4>
+
+          <p class="wrap-break-word text-sm leading-relaxed text-[#34445c]">
+            {{ comment.content }}
+          </p>
+        </div>
+
+        <!-- Comment Actions -->
+        <div
+          class="mt-1.5 flex flex-wrap items-center gap-3 px-2 text-xs font-semibold text-[#71829b]"
+        >
+          <span class="font-normal">{{ comment.createdAt }}</span>
+
+          <button type="button" class="transition hover:text-[#1877f2]">Like</button>
+
+          <button type="button" class="transition hover:text-[#1877f2]">Reply</button>
+
+          <span class="font-normal">{{ comment.likes.length }} likes</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Add New Comment -->
+  <div class="mt-5 flex items-center gap-2.5">
+    <img src="" alt="Your profile" class="h-9 w-9 shrink-0 rounded-full object-cover" />
+
+    <div
+      class="flex min-w-0 flex-1 items-center gap-2 rounded-full border border-[#e0e7f0] bg-[#f8fafc] px-4 py-2 transition focus-within:border-[#80b6ff] focus-within:ring-2 focus-within:ring-blue-100"
+    >
+      <input
+        type="text"
+        placeholder="Write a comment..."
+        class="min-w-0 flex-1 bg-transparent py-1 text-sm text-[#172033] outline-none border-none focus:border-none focus:ring-0 placeholder:text-[#929baa]"
+      />
+
+      <!-- Emoji -->
+      <button
+        type="button"
+        aria-label="Add emoji"
+        class="shrink-0 text-lg transition hover:scale-110"
+      >
+        😊
+      </button>
+
+      <!-- Send Comment -->
+      <button
+        type="button"
+        aria-label="Send comment"
+        class="shrink-0 text-[#1877f2] transition hover:text-[#0d5fcb]"
+      >
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.8"
+            d="m22 2-7 20-4-9-9-4 20-7ZM22 2 11 13"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
