@@ -1,8 +1,10 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { PostService } from '../../../../core/services/posts/post.service';
 import { Iposts } from '../../../../core/models/iposts.interface';
 import { CommentsComponent } from '../comments/comments.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { initFlowbite } from 'flowbite';
+import { User } from '../../../../user.interface';
 
 @Component({
   selector: 'app-mainfeed',
@@ -13,6 +15,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class MainfeedComponent implements OnInit {
   private readonly postService = inject(PostService);
   allPosts: WritableSignal<Iposts[]> = signal([]);
+  loggedInUserData: WritableSignal<User> = signal({} as User);
   imageToDisplay: WritableSignal<string | ArrayBuffer | null | undefined> = signal(null);
 
   // *file
@@ -24,6 +27,7 @@ export class MainfeedComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPosts();
+    this.saveUserData();
   }
 
   getAllPosts() {
@@ -37,6 +41,11 @@ export class MainfeedComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  saveUserData(): void {
+    this.loggedInUserData.set(JSON.parse(localStorage.getItem('socialUser')!));
+    console.log(this.loggedInUserData);
   }
 
   selectImage(e: Event): void {
@@ -89,6 +98,18 @@ export class MainfeedComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.resetPostCreation();
+        this.getAllPosts();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  deletPost(postId: string): void {
+    this.postService.deletePost(postId).subscribe({
+      next: (res) => {
+        console.log(res);
         this.getAllPosts();
       },
       error: (err) => {

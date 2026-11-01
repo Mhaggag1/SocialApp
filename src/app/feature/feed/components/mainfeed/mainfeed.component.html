@@ -112,17 +112,67 @@
           </div>
         </div>
 
-        <button
-          type="button"
-          aria-label="More options"
-          class="rounded-full p-2 text-[#657b9b] transition hover:bg-gray-100"
-        >
-          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-            <circle cx="5" cy="12" r="1.8" />
-            <circle cx="12" cy="12" r="1.8" />
-            <circle cx="19" cy="12" r="1.8" />
-          </svg>
-        </button>
+        <div class="relative group">
+          <button
+            id="dropdownMenuIconButton"
+            class="text-heading bg-neutral-primary box-border border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded-base text-sm p-2 focus:outline-none"
+            type="button"
+          >
+            <svg
+              class="w-6 h-6"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="3"
+                d="M12 6h.01M12 12h.01M12 18h.01"
+              />
+            </svg>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div
+            class="absolute right-0 top-full z-50 hidden group-hover:block bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44"
+          >
+            <ul class="p-2 text-sm text-body font-medium">
+              <li>
+                <a
+                  href="#"
+                  class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                >
+                  Save Post
+                </a>
+              </li>
+
+              @if (post.user._id == loggedInUserData()._id) {
+                <li>
+                  <a
+                    href="#"
+                    class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                  >
+                    Edit Post
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    (click)="deletPost(post._id)"
+                    href="#"
+                    class="text-red-500 inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                  >
+                    Delete Post
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
       </div>
 
       <!-- Post Text -->
