@@ -14,9 +14,7 @@
         Suggested Friends
       </h2>
 
-      <span class="rounded-full bg-[#f0f4f9] px-2.5 py-1 text-xs font-bold text-[#40536e]">
-        5
-      </span>
+      <span class="rounded-full bg-[#f0f4f9] px-2.5 py-1 text-xs font-bold text-[#40536e]"> </span>
     </div>
 
     <!-- Search Friends -->
@@ -34,6 +32,7 @@
       </svg>
 
       <input
+        [(ngModel)]="searchText"
         type="text"
         placeholder="Search friends..."
         class="w-full min-w-0 block px-2.5 py-1 text-sm text-heading bg-transparent rounded-base border-none appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
@@ -41,40 +40,44 @@
     </div>
 
     <!-- Friend 1 -->
-    <div class="mb-3 rounded-[17px] border border-[#dce5f1] p-3">
-      <div class="flex items-center justify-between gap-2">
-        <div class="flex min-w-0 items-center gap-2.5">
-          <img
-            src="https://i.pravatar.cc/100?img=12"
-            alt="menna"
-            class="h-11 w-11 shrink-0 rounded-full object-cover"
-          />
+    @for (suggest of suggeseted() | filtration: searchText(); track suggest._id) {
+      <div class="mb-3 rounded-[17px] border border-[#dce5f1] p-3">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex min-w-0 items-center gap-2.5">
+            <img
+              [src]="suggest.photo"
+              [alt]="suggest.name"
+              class="h-11 w-11 shrink-0 rounded-full object-cover"
+            />
 
-          <div class="min-w-0">
-            <h3 class="truncate text-sm font-bold">menna</h3>
-            <p class="truncate text-sm text-[#7488a5]">@gbngssssb</p>
+            <div class="min-w-0">
+              <h3 class="truncate text-sm font-bold">{{ suggest.name }}</h3>
+              <p class="truncate text-sm text-[#7488a5]">{{ suggest.username }}</p>
+            </div>
           </div>
+
+          <button
+            type="button"
+            class="flex shrink-0 items-center gap-1 rounded-full bg-[#e7f2ff] px-3 py-2 text-xs font-bold text-[#1677ff] transition hover:bg-[#d5e9ff]"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6m3-3h-6"
+              />
+            </svg>
+            Follow
+          </button>
         </div>
 
-        <button
-          type="button"
-          class="flex shrink-0 items-center gap-1 rounded-full bg-[#e7f2ff] px-3 py-2 text-xs font-bold text-[#1677ff] transition hover:bg-[#d5e9ff]"
+        <span
+          class="mt-3 inline-block rounded-full bg-[#f0f4f9] px-2.5 py-1 text-xs text-[#687d9b]"
         >
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6m3-3h-6"
-            />
-          </svg>
-          Follow
-        </button>
+          {{ suggest.followersCount }} followers
+        </span>
       </div>
-
-      <span class="mt-3 inline-block rounded-full bg-[#f0f4f9] px-2.5 py-1 text-xs text-[#687d9b]">
-        159 followers
-      </span>
-    </div>
+    }
   </section>
 </aside>

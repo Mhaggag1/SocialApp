@@ -1,7 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { initFlowbite } from 'flowbite';
+import { Component, inject, OnInit, WritableSignal, signal } from '@angular/core';
+
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../../core/auth/service/auth/auth.service';
+import { User } from '../../../../user.interface';
+import { ProfileService } from '../../../../feature/profile/profile.service';
+import { UserData } from '../../../../feature/profile/user-data.interface';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-navbar',
@@ -11,10 +15,25 @@ import { AuthService } from '../../../../core/auth/service/auth/auth.service';
 })
 export class NavbarComponent implements OnInit {
   private readonly authService = inject(AuthService);
+  userProfileData: WritableSignal<UserData | null> = signal(null);
+
   ngOnInit(): void {
     initFlowbite();
+    this.getProfileData();
   }
+  private readonly profileService = inject(ProfileService);
 
+  getProfileData() {
+    this.profileService.getProfileData().subscribe({
+      next: (res: any) => {
+        console.log(res.data.user);
+        this.userProfileData.set(res.data.user); // تخزين الـ Object
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
   navbarLogout() {
     this.authService.logout();
   }

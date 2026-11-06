@@ -8,24 +8,12 @@ import { environment } from '../../../../environments/environment';
 })
 export class CommentsService {
   private readonly httpClient = inject(HttpClient);
-  myHeaders: object = {
-    headers: {
-      AUTHORIZATION: `Bearer ${localStorage.getItem('socialToken')}`,
-    },
-  };
 
   getPostComments(postId: any): Observable<any> {
-    return this.httpClient.get(
-      `${environment['Base-Url']}/posts/${postId}/comments`,
-      this.myHeaders,
-    );
+    return this.httpClient.get(`${environment['Base-Url']}/posts/${postId}/comments`);
   }
 
   createComment(postId: any, body: any): Observable<any> {
-    return this.httpClient.post(
-      `${environment['Base-Url']}/posts/${postId}/comments`,
-      body,
-      this.myHeaders,
-    );
+    return this.httpClient.post(`${environment['Base-Url']}/posts/${postId}/comments`, body);
   }
 }

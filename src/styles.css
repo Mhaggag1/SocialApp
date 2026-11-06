@@ -6,6 +6,8 @@
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 
+@import 'ngx-toastr/toastr';
+
 @utility containter {
   margin: auto;
 }

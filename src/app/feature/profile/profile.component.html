@@ -1,1 +1,166 @@
-<p>profile works!</p>
+@if (userProfileData(); as user) {
+  <div class="min-h-screen bg-[#f1f3f6] text-[#172033]">
+    <!-- Main Content -->
+    <main class="max-w-314 mx-auto px-4 md:px-0 py-4">
+      <!-- Profile Card -->
+      <section class="bg-white rounded-[28px] shadow-md overflow-hidden mb-6">
+        <!-- Cover -->
+        <div class="h-45 md:h-60 bg-linear-to-r from-[#20293b] via-[#24466c] to-[#6394b9]"></div>
+
+        <div class="px-5 md:px-8 pb-10">
+          <!-- Profile Info -->
+          <div class="relative -mt-16 md:-mt-16">
+            <div
+              class="bg-linear-to-b from-[#f0f1f3] via-white to-white rounded-t-[26px] px-5 md:px-7 pt-7"
+            >
+              <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+                <!-- User Details -->
+                <div class="flex items-center gap-4">
+                  <div
+                    class="shrink-0 w-25 h-25 rounded-full border-[5px] border-white shadow-md ring-2 ring-blue-100 overflow-hidden"
+                  >
+                    <img [src]="user.photo" [alt]="user.name" class="w-full h-full object-cover" />
+                  </div>
+
+                  <div>
+                    <h1
+                      class="text-2xl md:text-[34px] font-extrabold tracking-tight text-[#151d30]"
+                    >
+                      {{ user.name }}
+                    </h1>
+
+                    <p class="text-lg text-slate-500 mt-1">{{ user.username }}</p>
+
+                    <span
+                      class="inline-flex items-center gap-2 mt-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m12-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0m3 5 2 2 4-4"
+                        />
+                      </svg>
+                      Route Posts member
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="grid grid-cols-3 gap-2 md:gap-3 w-full xl:w-130">
+                  <div class="border border-[#dce5f1] rounded-2xl p-4 text-center">
+                    <p class="text-[11px] font-bold text-slate-500">FOLLOWERS</p>
+                    <h2 class="text-3xl font-extrabold mt-1">{{ user.followersCount }}</h2>
+                  </div>
+
+                  <div class="border border-[#dce5f1] rounded-2xl p-4 text-center">
+                    <p class="text-[11px] font-bold text-slate-500">FOLLOWING</p>
+                    <h2 class="text-3xl font-extrabold mt-1">{{ user.followingCount }}</h2>
+                  </div>
+
+                  <div class="border border-[#dce5f1] rounded-2xl p-4 text-center">
+                    <p class="text-[11px] font-bold text-slate-500">BOOKMARKS</p>
+                    <h2 class="text-3xl font-extrabold mt-1">{{ user.bookmarksCount }}</h2>
+                  </div>
+                </div>
+              </div>
+
+              <!-- About & Profile Stats -->
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-6">
+                <!-- About -->
+                <div
+                  class="md:col-span-8 bg-[#f7f9fb] border border-[#dce5f1] rounded-2xl p-4 min-h-42"
+                >
+                  <h3 class="text-sm font-bold text-[#29354a] mb-4">About</h3>
+
+                  <div class="space-y-2 text-sm text-slate-500">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 6l9 7 9-7M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"
+                        />
+                      </svg>
+                      {{ user.email }}
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m12-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0"
+                        />
+                      </svg>
+                      Active on Route Posts
+                    </div>
+                  </div>
+                </div>
+
+                <!-- My Posts / Saved Posts -->
+                <div class="md:col-span-4 flex flex-col gap-3">
+                  <div class="bg-[#f5f9ff] border border-blue-100 rounded-2xl px-4 py-3">
+                    <p class="text-xs font-bold text-[#2456a8]">MY POSTS</p>
+                    <h2 class="text-2xl font-extrabold mt-1"></h2>
+                  </div>
+
+                  <div class="bg-[#f5f9ff] border border-blue-100 rounded-2xl px-4 py-3">
+                    <p class="text-xs font-bold text-[#2456a8]">SAVED POSTS</p>
+                    <h2 class="text-2xl font-extrabold mt-1">{{ user.bookmarksCount }}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Posts Tabs -->
+      <section class="bg-white rounded-2xl border border-[#e0e7f0] shadow-sm p-3 mb-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1 bg-[#f0f4f8] rounded-xl p-1">
+            <button
+              class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-slate-600 text-sm font-semibold shadow-sm"
+              routerLink="myposts"
+              routerLinkActive="active"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"
+                />
+              </svg>
+              My Posts
+            </button>
+
+            <button
+              class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-slate-600 text-sm font-semibold shadow-sm"
+              routerLink="savedposts"
+              routerLinkActive="active"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 4a2 2 0 0 1 2-2h10v20l-7-4-7 4V4z"
+                />
+              </svg>
+              Saved
+            </button>
+          </div>
+
+          <span class="bg-blue-50 text-blue-600 rounded-full px-3 py-1 text-xs font-bold"> 1 </span>
+        </div>
+      </section>
+
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+}

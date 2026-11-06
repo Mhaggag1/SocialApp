@@ -9,6 +9,9 @@ import { NotificationsComponent } from './feature/notifications/notifications.co
 import { NotFoundComponent } from './feature/not-found/not-found.component';
 import { isAllowedAuthGuard } from './core/auth/guard/is-allowed-auth-guard';
 import { alreadyLoggedGuard } from './core/auth/guard/already-logged-guard';
+import { PostdetailsComponent } from './feature/postdetails/postdetails.component';
+import { MyPostsComponent } from './feature/profile/my-posts/my-posts.component';
+import { SavedPostsComponent } from './feature/profile/saved-posts/saved-posts.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -28,7 +31,15 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: 'feed', component: FeedComponent },
-      { path: 'profile', component: ProfileComponent },
+      { path: 'post-details/:id', component: PostdetailsComponent },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        children: [
+          { path: 'myposts', component: MyPostsComponent },
+          { path: 'savedposts', component: SavedPostsComponent },
+        ],
+      },
       { path: 'notifications', component: NotificationsComponent },
     ],
   },

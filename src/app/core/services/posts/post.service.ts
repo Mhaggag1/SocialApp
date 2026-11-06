@@ -8,25 +8,24 @@ import { environment } from '../../../../environments/environment';
 })
 export class PostService {
   private readonly httpClient = inject(HttpClient);
-  myHeaders: object = {
-    headers: {
-      AUTHORIZATION: `Bearer ${localStorage.getItem('socialToken')}`,
-    },
-  };
 
   getAllPosts(): Observable<any> {
-    return this.httpClient.get(`${environment['Base-Url']}/posts`, this.myHeaders);
+    return this.httpClient.get(`${environment['Base-Url']}/posts`);
   }
 
   createPost(body: any): Observable<any> {
-    return this.httpClient.post(`${environment['Base-Url']}/posts`, body, this.myHeaders);
+    return this.httpClient.post(`${environment['Base-Url']}/posts`, body);
   }
 
   getSinglePost(postId: any): Observable<any> {
-    return this.httpClient.get(`${environment['Base-Url']}/posts/${postId}`, this.myHeaders);
+    return this.httpClient.get(`${environment['Base-Url']}/posts/${postId}`);
   }
 
   deletePost(postId: any): Observable<any> {
-    return this.httpClient.delete(`${environment['Base-Url']}/posts/${postId}`, this.myHeaders);
+    return this.httpClient.delete(`${environment['Base-Url']}/posts/${postId}`);
+  }
+
+  bookmarkPost(postId: any): Observable<any> {
+    return this.httpClient.put(`${environment['Base-Url']}/posts/${postId}/bookmark`, {});
   }
 }

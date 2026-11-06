@@ -2,13 +2,25 @@ import { AfterViewInit, Component, inject, OnInit, signal, WritableSignal } from
 import { PostService } from '../../../../core/services/posts/post.service';
 import { Iposts } from '../../../../core/models/iposts.interface';
 import { CommentsComponent } from '../comments/comments.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { initFlowbite } from 'flowbite';
 import { User } from '../../../../user.interface';
+import { RouterLink } from '@angular/router';
+import { DatePipe, LowerCasePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { FiltrationPipe } from '../../../../shared/pipes/filtration-pipe';
 
 @Component({
   selector: 'app-mainfeed',
-  imports: [CommentsComponent, ReactiveFormsModule],
+  imports: [
+    CommentsComponent,
+    ReactiveFormsModule,
+    RouterLink,
+    DatePipe,
+    UpperCasePipe,
+
+    FiltrationPipe,
+    FormsModule,
+  ],
   templateUrl: './mainfeed.component.html',
   styleUrl: './mainfeed.component.css',
 })
@@ -24,6 +36,8 @@ export class MainfeedComponent implements OnInit {
   bodyInput = new FormControl('');
   // *privacy
   privacyInput = new FormControl('public');
+
+  searchText = signal('');
 
   ngOnInit(): void {
     this.getAllPosts();
@@ -111,6 +125,16 @@ export class MainfeedComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.getAllPosts();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+  SavePost(postId: string): void {
+    this.postService.bookmarkPost(postId).subscribe({
+      next: (res) => {
+        console.log(res);
       },
       error: (err) => {
         console.log(err);
