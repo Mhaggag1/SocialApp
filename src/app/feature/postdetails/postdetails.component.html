@@ -87,7 +87,9 @@
     </div>
 
     <!-- Post Text -->
-    <div class="px-5 pb-5 text-sm text-[#172033]">{{ post.body }}</div>
+    @if (post.body) {
+      <div class="px-5 pb-5 text-sm text-[#172033]">{{ post.body }}</div>
+    }
     @if (post.image) {
       <img
         [src]="post.image"
@@ -97,6 +99,36 @@
     }
 
     <!-- Shared Post -->
+    @if (post.sharedPost; as shared) {
+      <div class="mx-5 mb-4 overflow-hidden rounded-2xl border border-[#dce3ed] bg-[#f8fafc] p-4">
+        <div class="flex items-center gap-3 mb-3">
+          <img
+            [src]="shared.user.photo"
+            [alt]="shared.user.name"
+            class="h-10 w-10 shrink-0 rounded-full object-cover"
+          />
+          <div class="min-w-0">
+            <h4 class="text-sm font-bold text-[#111c32]">{{ shared.user.name }}</h4>
+            <div class="flex flex-wrap items-center gap-2 text-xs text-[#687d9b]">
+              <span>{{ shared.user.username }}</span>
+              <span>·</span>
+              <span>{{ shared.createdAt | date: 'short' }}</span>
+            </div>
+          </div>
+        </div>
+
+        @if (shared.body) {
+          <div class="text-sm text-[#172033] mb-2">{{ shared.body }}</div>
+        }
+        @if (shared.image) {
+          <img
+            [src]="shared.image"
+            alt=""
+            class="w-full max-h-80 object-cover rounded-2xl mt-2"
+          />
+        }
+      </div>
+    }
 
     <!-- Post Stats -->
     <div

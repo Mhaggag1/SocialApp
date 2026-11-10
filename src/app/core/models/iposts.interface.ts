@@ -4,7 +4,7 @@ export interface Iposts {
   body?: string;
   privacy: string;
   user: User;
-  sharedPost: null;
+  sharedPost: Iposts | null;
   likes: any[];
   createdAt: string;
   commentsCount: number;
