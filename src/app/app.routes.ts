@@ -12,6 +12,7 @@ import { alreadyLoggedGuard } from './core/auth/guard/already-logged-guard';
 import { PostdetailsComponent } from './feature/postdetails/postdetails.component';
 import { MyPostsComponent } from './feature/profile/my-posts/my-posts.component';
 import { SavedPostsComponent } from './feature/profile/saved-posts/saved-posts.component';
+import { ChangePasswordComponent } from './feature/change-password/change-password.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -36,11 +37,13 @@ export const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         children: [
+          { path: '', redirectTo: 'myposts', pathMatch: 'full' },
           { path: 'myposts', component: MyPostsComponent },
           { path: 'savedposts', component: SavedPostsComponent },
         ],
       },
       { path: 'notifications', component: NotificationsComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
     ],
   },
   { path: '**', component: NotFoundComponent },

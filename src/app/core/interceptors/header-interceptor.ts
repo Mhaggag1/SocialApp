@@ -4,11 +4,11 @@ export const headerInterceptor: HttpInterceptorFn = (req, next) => {
   // لو عاوز تزود على الريكوست
 
   //اوعي تتعامل مع الريكوست بشكل دايركت هتاخد منه نسخة وتعدل فيها وتبعت النسخة اللي عدلت عليها في النكست
-  if (!req.url.includes('/signup') || !req.url.includes('/signin')) {
+  if (!req.url.includes('/signup') && !req.url.includes('/signin')) {
     if (localStorage.getItem('socialToken')) {
       req = req.clone({
         setHeaders: {
-          AUTHORIZATION: `Bearer ${localStorage.getItem('socialToken')} `,
+          AUTHORIZATION: `Bearer ${localStorage.getItem('socialToken')}`,
         },
       });
     }

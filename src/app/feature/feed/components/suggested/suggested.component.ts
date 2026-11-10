@@ -29,4 +29,16 @@ export class SuggestedComponent implements OnInit {
       },
     });
   }
+
+  followUser(userId: string) {
+    this.suggestedService.followUser(userId).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.getSuggested();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }

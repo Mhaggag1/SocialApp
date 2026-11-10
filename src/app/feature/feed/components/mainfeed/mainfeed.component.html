@@ -1,82 +1,87 @@
-<form (submit)="submitCreate($event)" class="min-w-0 space-y-5">
+<div class="min-w-0 space-y-5">
   <!-- Create Post -->
-  <section class="rounded-[22px] border border-[#dce3ed] bg-white p-5 shadow-sm">
-    <!-- User Information -->
-    <div class="mb-4 flex items-center gap-3">
-      <img
-        src="https://i.pravatar.cc/100?img=12"
-        alt="Profile picture"
-        class="h-12 w-12 rounded-full object-cover"
-      />
-
-      <div class="min-w-0">
-        <h2 class="text-base font-bold text-[#111c32]">Youssef Samir</h2>
-
-        <select
-          [formControl]="privacyInput"
-          class="mt-1 flex items-center gap-2 rounded-full bg-[#f0f4f9] px-7 py-1.5 text-sm text-[#344966] hover:bg-[#e6edf6]"
-        >
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Post Input -->
-
-    <textarea
-      [formControl]="bodyInput"
-      rows="4"
-      placeholder="What's on your mind, Youssef?"
-      class="w-full resize-y rounded-[20px] border border-[#dfe7f2] bg-[#f8fafc] p-5 text-base text-[#172033] outline-none transition placeholder:text-[#929baa] focus:border-[#80b6ff] focus:ring-2 focus:ring-blue-100"
-    ></textarea>
-
-    @if (imageToDisplay()) {
-      <div>
-        <img [src]="imageToDisplay()" class="w-full h-50 object-contain" alt="" />
-      </div>
-    }
-
-    <!-- Post Actions -->
-    <div
-      class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#dce3ed] pt-3.5"
-    >
-      <div class="flex flex-wrap items-center gap-5 sm:gap-8">
-        <label for="file">
-          <svg
-            class="h-5 w-5 text-emerald-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <rect x="3" y="3" width="18" height="18" rx="2" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="m21 15-5-5L5 21" />
-          </svg>
-        </label>
-        <input
-          (change)="selectImage($event)"
-          id="file"
-          type="file"
-          class="items-center gap-2 text-sm font-medium text-[#536680] transition hover:text-orange-500 hidden"
+  <form (submit)="submitCreate($event)">
+    <section class="rounded-[22px] border border-[#dce3ed] bg-white p-5 shadow-sm">
+      <!-- User Information -->
+      <div class="mb-4 flex items-center gap-3">
+        <img
+          [src]="loggedInUserData().photo || 'https://i.pravatar.cc/100?img=12'"
+          alt="Profile picture"
+          class="h-12 w-12 rounded-full object-cover"
         />
+
+        <div class="min-w-0">
+          <h2 class="text-base font-bold text-[#111c32]">
+            {{ loggedInUserData().name || 'Youssef Samir' }}
+          </h2>
+
+          <select
+            [formControl]="privacyInput"
+            class="mt-1 flex items-center gap-2 rounded-full bg-[#f0f4f9] px-7 py-1.5 text-sm text-[#344966] hover:bg-[#e6edf6]"
+          >
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </select>
+        </div>
       </div>
 
-      <button
-        class="flex items-center gap-2 rounded-xl bg-[#75aaf7] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#4d91f3]"
+      <!-- Post Input -->
+
+      <textarea
+        [formControl]="bodyInput"
+        rows="4"
+        [placeholder]="'What\'s on your mind, ' + (loggedInUserData().name || 'Youssef') + '?'"
+        class="w-full resize-y rounded-[20px] border border-[#dfe7f2] bg-[#f8fafc] p-5 text-base text-[#172033] outline-none transition placeholder:text-[#929baa] focus:border-[#80b6ff] focus:ring-2 focus:ring-blue-100"
+      ></textarea>
+
+      @if (imageToDisplay()) {
+        <div>
+          <img [src]="imageToDisplay()" class="w-full h-50 object-contain" alt="" />
+        </div>
+      }
+
+      <!-- Post Actions -->
+      <div
+        class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#dce3ed] pt-3.5"
       >
-        Post
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.8"
-            d="m22 2-7 20-4-9-9-4 20-7ZM22 2 11 13"
+        <div class="flex flex-wrap items-center gap-5 sm:gap-8">
+          <label for="file" class="cursor-pointer">
+            <svg
+              class="h-5 w-5 text-emerald-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 15-5-5L5 21" />
+            </svg>
+          </label>
+          <input
+            (change)="selectImage($event)"
+            id="file"
+            type="file"
+            class="items-center gap-2 text-sm font-medium text-[#536680] transition hover:text-orange-500 hidden"
           />
-        </svg>
-      </button>
-    </div>
-  </section>
+        </div>
+
+        <button
+          type="submit"
+          class="flex items-center gap-2 rounded-xl bg-[#75aaf7] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#4d91f3]"
+        >
+          {{ editingPostId() ? 'Update' : 'Post' }}
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              d="m22 2-7 20-4-9-9-4 20-7ZM22 2 11 13"
+            />
+          </svg>
+        </button>
+      </div>
+    </section>
+  </form>
 
   <input
     [(ngModel)]="searchText"
@@ -152,18 +157,17 @@
               <li>
                 <a
                   (click)="SavePost(post._id)"
-                  href="#"
-                  class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                  class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded cursor-pointer"
                 >
-                  Save Post
+                  {{ post.bookmarked ? 'Unsave Post' : 'Save Post' }}
                 </a>
               </li>
 
               @if (post.user._id == loggedInUserData()._id) {
                 <li>
                   <a
-                    href="#"
-                    class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                    (click)="startEditPost(post)"
+                    class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded cursor-pointer"
                   >
                     Edit Post
                   </a>
@@ -172,8 +176,7 @@
                 <li>
                   <a
                     (click)="deletPost(post._id)"
-                    href="#"
-                    class="text-red-500 inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                    class="text-red-500 inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded cursor-pointer"
                   >
                     Delete Post
                   </a>
@@ -186,11 +189,13 @@
 
       <!-- Post Text -->
       <div class="px-5 pb-5 text-sm text-[#172033]">{{ post.body }}</div>
-      <img
-        [src]="post.image"
-        alt=""
-        class="w-full max-h-90 object-cover rounded-3xl mt-2 px-2 py-2"
-      />
+      @if (post.image) {
+        <img
+          [src]="post.image"
+          alt=""
+          class="w-full max-h-90 object-cover rounded-3xl mt-2 px-2 py-2"
+        />
+      }
 
       <!-- Shared Post -->
 
@@ -224,6 +229,7 @@
       <div class="grid grid-cols-3 gap-1 px-3 py-2">
         <!-- Like -->
         <button
+          (click)="likePost(post._id)"
           type="button"
           class="flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-[#52647e] transition hover:bg-[#f0f5fb] hover:text-[#1877f2]"
         >
@@ -257,6 +263,7 @@
 
         <!-- Share -->
         <button
+          (click)="sharePost(post._id)"
           type="button"
           class="flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-[#52647e] transition hover:bg-[#f0f5fb] hover:text-[#1877f2]"
         >
@@ -277,4 +284,4 @@
       }
     </article>
   }
-</form>
+</div>

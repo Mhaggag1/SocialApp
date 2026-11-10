@@ -31,12 +31,13 @@ export class MainfeedComponent implements OnInit {
   imageToDisplay: WritableSignal<string | ArrayBuffer | null | undefined> = signal(null);
 
   // *file
-  selectedImg!: File;
+  selectedImg: File | null = null;
   // *body
   bodyInput = new FormControl('');
   // *privacy
   privacyInput = new FormControl('public');
 
+  editingPostId: WritableSignal<string | null> = signal(null);
   searchText = signal('');
 
   ngOnInit(): void {
@@ -58,14 +59,17 @@ export class MainfeedComponent implements OnInit {
   }
 
   saveUserData(): void {
-    this.loggedInUserData.set(JSON.parse(localStorage.getItem('socialUser')!));
+    const storedUser = localStorage.getItem('socialUser');
+    if (storedUser) {
+      this.loggedInUserData.set(JSON.parse(storedUser));
+    }
     console.log(this.loggedInUserData);
   }
 
   selectImage(e: Event): void {
     if (e.target) {
       let target = e.target as HTMLInputElement;
-      if (target.files) {
+      if (target.files && target.files[0]) {
         this.selectedImg = target.files[0];
         console.log(this.selectedImg);
         // Display Img In HTML
@@ -84,13 +88,24 @@ export class MainfeedComponent implements OnInit {
   }
   // خدها حطها على حاجة هناك
   resetChosenImg() {
+    this.selectedImg = null;
     this.imageToDisplay.set(null);
   }
 
   resetPostCreation(): void {
     this.bodyInput.reset();
     this.privacyInput.reset('public');
+    this.selectedImg = null;
     this.imageToDisplay.set(null);
+    this.editingPostId.set(null);
+  }
+
+  startEditPost(post: Iposts): void {
+    this.editingPostId.set(post._id);
+    this.bodyInput.setValue(post.body || '');
+    this.privacyInput.setValue(post.privacy || 'public');
+    this.imageToDisplay.set(post.image || null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   submitCreate(e: SubmitEvent) {
@@ -107,8 +122,13 @@ export class MainfeedComponent implements OnInit {
       myForm.append('privacy', this.privacyInput.value);
     }
 
+    const editId = this.editingPostId();
+    const request$ = editId
+      ? this.postService.updatePost(editId, myForm)
+      : this.postService.createPost(myForm);
+
     // SUbscribe and send form data
-    this.postService.createPost(myForm).subscribe({
+    request$.subscribe({
       next: (res) => {
         console.log(res);
         this.resetPostCreation();
@@ -131,10 +151,36 @@ export class MainfeedComponent implements OnInit {
       },
     });
   }
+
   SavePost(postId: string): void {
     this.postService.bookmarkPost(postId).subscribe({
       next: (res) => {
         console.log(res);
+        this.getAllPosts();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  likePost(postId: string): void {
+    this.postService.likePost(postId).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.getAllPosts();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  sharePost(postId: string): void {
+    this.postService.sharePost(postId).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.getAllPosts();
       },
       error: (err) => {
         console.log(err);

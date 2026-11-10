@@ -9,6 +9,7 @@
         </p>
       </div>
       <button
+        (click)="markAllAsRead()"
         class="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-medium transition duration-200 self-start sm:self-auto"
       >
         <svg
@@ -32,25 +33,67 @@
     <!-- Filter Buttons (All / Unread) -->
     <div class="flex items-center gap-2 mb-6">
       <button
-        class="px-5 py-2 rounded-full bg-blue-600 text-white font-medium text-sm shadow-sm transition duration-200"
+        (click)="setFilter(false)"
+        [class]="
+          !onlyUnread()
+            ? 'px-5 py-2 rounded-full bg-blue-600 text-white font-medium text-sm shadow-sm transition duration-200'
+            : 'px-5 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium text-sm transition duration-200'
+        "
       >
         All
       </button>
       <button
-        class="px-5 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium text-sm transition duration-200"
+        (click)="setFilter(true)"
+        [class]="
+          onlyUnread()
+            ? 'px-5 py-2 rounded-full bg-blue-600 text-white font-medium text-sm shadow-sm transition duration-200'
+            : 'px-5 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium text-sm transition duration-200'
+        "
       >
-        Unread
+        Unread {{ unreadCount() ? '(' + unreadCount() + ')' : '' }}
       </button>
     </div>
 
     <!-- Divider Line -->
     <hr class="border-slate-100 mb-6" />
 
-    <!-- Empty State Box -->
-    <div
-      class="border border-slate-200/80 rounded-2xl py-16 flex items-center justify-center text-slate-400 text-sm"
-    >
-      No notifications yet.
-    </div>
+    @if (notifications().length > 0) {
+      <div class="space-y-3">
+        @for (item of notifications(); track item._id) {
+          <div
+            (click)="markAsRead(item._id)"
+            class="flex items-center justify-between gap-4 p-4 rounded-2xl border border-slate-200/80 hover:bg-slate-50 transition cursor-pointer"
+          >
+            <div class="flex items-center gap-3 min-w-0">
+              @if (item.sender?.photo || item.actor?.photo) {
+                <img
+                  [src]="item.sender?.photo || item.actor?.photo"
+                  alt=""
+                  class="w-10 h-10 rounded-full object-cover shrink-0"
+                />
+              }
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-slate-800">
+                  {{ item.message || item.content || item.type }}
+                </p>
+                <span class="text-xs text-slate-400">
+                  {{ item.createdAt | date: 'short' }}
+                </span>
+              </div>
+            </div>
+            @if (!item.isRead && !item.read) {
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></span>
+            }
+          </div>
+        }
+      </div>
+    } @else {
+      <!-- Empty State Box -->
+      <div
+        class="border border-slate-200/80 rounded-2xl py-16 flex items-center justify-center text-slate-400 text-sm"
+      >
+        No notifications yet.
+      </div>
+    }
   </div>
 </div>

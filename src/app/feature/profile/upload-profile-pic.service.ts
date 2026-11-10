@@ -6,14 +6,11 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileService {
+export class UploadProfilePicService {
   private readonly httpClient = inject(HttpClient);
   uploadProfilePicture(file: File): Observable<any> {
     const formData = new FormData();
-    formData.append('profilePicture', file);
-    return this.httpClient.post(
-      `${environment['Base-Url']}/users/upload-profile-picture`,
-      formData,
-    );
+    formData.append('photo', file);
+    return this.httpClient.put(`${environment['Base-Url']}/users/upload-photo`, formData);
   }
 }

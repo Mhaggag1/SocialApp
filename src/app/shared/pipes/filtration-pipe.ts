@@ -17,14 +17,13 @@ export class FiltrationPipe implements PipeTransform {
     }
 
     // 3. الفلترة مع التأكد من وجود الـ item والـ user والـ name عشان متضربش إيرور
+    const term = searchTerm.toLowerCase();
     return arr.filter((item) => {
-      const userName = item?.user?.name;
+      const name = (item?.user?.name ?? item?.name ?? '').toLowerCase();
+      const username = (item?.user?.username ?? item?.username ?? '').toLowerCase();
+      const body = (item?.body ?? '').toLowerCase();
 
-      return (
-        userName &&
-        item.userName.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        userName.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      return name.includes(term) || username.includes(term) || body.includes(term);
     });
   }
 }

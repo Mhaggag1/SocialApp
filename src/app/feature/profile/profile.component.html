@@ -16,11 +16,20 @@
               <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
                 <!-- User Details -->
                 <div class="flex items-center gap-4">
-                  <div
-                    class="shrink-0 w-25 h-25 rounded-full border-[5px] border-white shadow-md ring-2 ring-blue-100 overflow-hidden"
+                  <label
+                    for="profile-photo-upload"
+                    class="shrink-0 w-25 h-25 rounded-full border-[5px] border-white shadow-md ring-2 ring-blue-100 overflow-hidden cursor-pointer block"
+                    title="Click to change profile photo"
                   >
                     <img [src]="user.photo" [alt]="user.name" class="w-full h-full object-cover" />
-                  </div>
+                    <input
+                      id="profile-photo-upload"
+                      type="file"
+                      accept="image/*"
+                      class="hidden"
+                      (change)="uploadPhoto($event)"
+                    />
+                  </label>
 
                   <div>
                     <h1
@@ -105,7 +114,7 @@
                 <div class="md:col-span-4 flex flex-col gap-3">
                   <div class="bg-[#f5f9ff] border border-blue-100 rounded-2xl px-4 py-3">
                     <p class="text-xs font-bold text-[#2456a8]">MY POSTS</p>
-                    <h2 class="text-2xl font-extrabold mt-1"></h2>
+                    <h2 class="text-2xl font-extrabold mt-1">{{ myPostsCount() }}</h2>
                   </div>
 
                   <div class="bg-[#f5f9ff] border border-blue-100 rounded-2xl px-4 py-3">
@@ -156,7 +165,9 @@
             </button>
           </div>
 
-          <span class="bg-blue-50 text-blue-600 rounded-full px-3 py-1 text-xs font-bold"> 1 </span>
+          <span class="bg-blue-50 text-blue-600 rounded-full px-3 py-1 text-xs font-bold">
+            {{ myPostsCount() }}
+          </span>
         </div>
       </section>
 

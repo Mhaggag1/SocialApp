@@ -11,4 +11,8 @@ export class SuggestedService {
   getSuggested(): Observable<any> {
     return this.httpClient.get(`${environment['Base-Url']}/users/suggestions?limit=10`);
   }
+
+  followUser(userId: string): Observable<any> {
+    return this.httpClient.put(`${environment['Base-Url']}/users/${userId}/follow`, {});
+  }
 }

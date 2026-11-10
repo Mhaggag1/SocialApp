@@ -19,6 +19,10 @@ export class AuthService {
     return this.httpClient.post(`${environment['Base-Url']}/users/signin`, data);
   }
 
+  changePassword(data: object): Observable<any> {
+    return this.httpClient.patch(`${environment['Base-Url']}/users/change-password`, data);
+  }
+
   logout() {
     //
     localStorage.removeItem('socialToken');

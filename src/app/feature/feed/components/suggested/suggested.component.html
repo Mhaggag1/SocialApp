@@ -14,7 +14,9 @@
         Suggested Friends
       </h2>
 
-      <span class="rounded-full bg-[#f0f4f9] px-2.5 py-1 text-xs font-bold text-[#40536e]"> </span>
+      <span class="rounded-full bg-[#f0f4f9] px-2.5 py-1 text-xs font-bold text-[#40536e]">
+        {{ suggeseted().length }}
+      </span>
     </div>
 
     <!-- Search Friends -->
@@ -57,6 +59,7 @@
           </div>
 
           <button
+            (click)="followUser(suggest._id)"
             type="button"
             class="flex shrink-0 items-center gap-1 rounded-full bg-[#e7f2ff] px-3 py-2 text-xs font-bold text-[#1677ff] transition hover:bg-[#d5e9ff]"
           >
