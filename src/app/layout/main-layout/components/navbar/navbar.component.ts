@@ -18,7 +18,11 @@ export class NavbarComponent implements OnInit {
   userProfileData: WritableSignal<UserData | null> = signal(null);
 
   ngOnInit(): void {
-    initFlowbite();
+    const savedUser = localStorage.getItem('socialUser');
+    if (savedUser) {
+      this.userProfileData.set(JSON.parse(savedUser));
+      setTimeout(() => initFlowbite());
+    }
     this.getProfileData();
   }
   private readonly profileService = inject(ProfileService);
@@ -28,6 +32,7 @@ export class NavbarComponent implements OnInit {
       next: (res: any) => {
         console.log(res.data.user);
         this.userProfileData.set(res.data.user); // تخزين الـ Object
+        setTimeout(() => initFlowbite());
       },
       error: (err) => {
         console.log(err);
